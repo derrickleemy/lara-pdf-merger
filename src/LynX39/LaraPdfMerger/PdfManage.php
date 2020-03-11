@@ -16,34 +16,12 @@ class PdfManage
     private $_fpdi;
     protected $fileName = 'undefined.pdf';
 
-    public function __construct()
-    {
-        $this->init();
-    }
-
-    /**
-     * The class deconstructor method
-     */
-    public function __destruct()
-    {
-        $filePath = storage_path('tmp/');
-        $files = File::allFiles($filePath);
-        foreach ($files as $file) {
-            File::delete($file);
-        }
-    }
-
     public function init()
     {
         $this->_files = null;
         $this->_fpdi = new TCPDI;
         $this->_fpdi->setPrintHeader(false);
         $this->_fpdi->setPrintFooter(false);
-
-        $filePath = storage_path('tmp');
-        if (!file_exists($filePath)) {
-            File::makeDirectory($filePath, 0755, true);
-        }
 
         return $this;
     }
