@@ -26,11 +26,8 @@ class PdfManage
      */
     public function __destruct()
     {
-        $filePath = storage_path('tmp/');
-        $files = File::allFiles($filePath);
-        foreach ($files as $file) {
-            File::delete($file);
-        }
+        $filePath = storage_path('app/tmp');
+        File::cleanDirectory($filePath);
     }
 
     public function init()
@@ -40,7 +37,7 @@ class PdfManage
         $this->_fpdi->setPrintHeader(false);
         $this->_fpdi->setPrintFooter(false);
 
-        $filePath = storage_path('tmp');
+        $filePath = storage_path('app/tmp');
         if (!file_exists($filePath)) {
             File::makeDirectory($filePath, 0755, true);
         }
@@ -68,7 +65,7 @@ class PdfManage
      */
     public function addString($string, $pages = 'all', $orientation = null)
     {
-        $filePath = storage_path('tmp/' . Str::random(16) . '.pdf');
+        $filePath = storage_path('app/tmp/' . Str::random(16) . '.pdf');
         File::put($filePath, $string);
         return $this->addPDF($filePath, $pages, $orientation);
     }
